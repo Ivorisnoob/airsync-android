@@ -60,6 +60,7 @@ import com.sameerasw.airsync.presentation.ui.components.cards.NotificationSyncCa
 import com.sameerasw.airsync.presentation.ui.components.cards.DeviceInfoCard
 import com.sameerasw.airsync.presentation.ui.components.dialogs.AboutDialog
 import com.sameerasw.airsync.presentation.ui.components.dialogs.ConnectionDialog
+import com.sameerasw.airsync.presentation.ui.components.dialogs.WallpaperSelectionDialog
 import org.json.JSONObject
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -447,6 +448,23 @@ fun AirSyncMainScreen(
                         }
                     }
 
+                    // Manual Wallpaper Sync Button
+                    OutlinedButton(
+                        onClick = { viewModel.showWallpaperSelectionDialog() },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp),
+                        shape = RoundedCornerShape(
+                            topStart = ExtraCornerRadius,
+                            topEnd = ExtraCornerRadius,
+                            bottomStart = ExtraCornerRadius,
+                            bottomEnd = ExtraCornerRadius
+                        ),
+                        enabled = uiState.isConnected
+                    ) {
+                        Text("Sync Wallpaper")
+                    }
+
                         Spacer(modifier = Modifier.height(24.dp))
                     }
                 }
@@ -616,6 +634,14 @@ fun AirSyncMainScreen(
         AboutDialog(
             onDismissRequest = onDismissAbout,
             onToggleDeveloperMode = { viewModel.toggleDeveloperModeVisibility() }
+        )
+    }
+
+    // Wallpaper Selection Dialog
+    if (uiState.showWallpaperSelectionDialog) {
+        WallpaperSelectionDialog(
+            onDismiss = { viewModel.hideWallpaperSelectionDialog() },
+            onWallpaperSelected = { uri -> viewModel.handleWallpaperSelected(context, uri) }
         )
     }
 }

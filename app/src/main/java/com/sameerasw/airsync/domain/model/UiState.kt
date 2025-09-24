@@ -29,8 +29,7 @@ data class UiState(
     val macDeviceStatus: MacDeviceStatus? = null,
     // Auth failure dialog
     val showAuthFailureDialog: Boolean = false,
-    val authFailureMessage: String = ""
-    val macDeviceStatus: MacDeviceStatus? = null,
+    val authFailureMessage: String = "",
     // Wallpaper selection
     val showWallpaperSelectionDialog: Boolean = false,
     val wallpaperSelectionMessage: String = ""

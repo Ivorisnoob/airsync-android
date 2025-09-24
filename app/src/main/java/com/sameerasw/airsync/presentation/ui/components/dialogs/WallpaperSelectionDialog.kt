@@ -69,23 +69,13 @@ fun WallpaperSelectionDialog(
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Text(
-                        text = "🖼️",
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                    Text(
-                        text = "Select Wallpaper",
-                        style = MaterialTheme.typography.headlineSmall.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier.weight(1f)
-                    )
-                }
+                Text(
+                    text = "Select Wallpaper",
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
 
                 HorizontalDivider()
 
@@ -97,163 +87,13 @@ fun WallpaperSelectionDialog(
                 )
 
                 // Why we need this
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer
-                    )
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Text(
-                            text = "Why manual selection is needed:",
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.SemiBold
-                            ),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                        Text(
-                            text = "Some devices restrict wallpaper access for privacy reasons. Manual selection allows AirSync to access your chosen wallpaper image while respecting your privacy settings.",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    }
-                }
+                Text(
+                    text = "Manual selection is needed due to privacy restrictions on some devices.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
 
-                Spacer(modifier = Modifier.height(8.dp))
 
-                // Selection options
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    // Photo Picker (Android 13+)
-                    OutlinedButton(
-                        onClick = {
-                            try {
-                                photoPickerLauncher.launch(
-                                    PickVisualMediaRequest(
-                                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                                    )
-                                )
-                            } catch (e: ActivityNotFoundException) {
-                                Toast.makeText(context, "Photo picker not available", Toast.LENGTH_SHORT).show()
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(ExtraCornerRadius)
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Text(
-                                text = "📱",
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Column(
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                Text(
-                                    text = "Choose from Photos",
-                                    style = MaterialTheme.typography.titleSmall.copy(
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                )
-                                Text(
-                                    text = "Select any image from your photo library",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
-
-                    // File Picker (fallback)
-                    OutlinedButton(
-                        onClick = {
-                            try {
-                                filePickerLauncher.launch("image/*")
-                            } catch (e: ActivityNotFoundException) {
-                                Toast.makeText(context, "File picker not available", Toast.LENGTH_SHORT).show()
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(ExtraCornerRadius)
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Text(
-                                text = "📁",
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Column(
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                Text(
-                                    text = "Browse Files",
-                                    style = MaterialTheme.typography.titleSmall.copy(
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                )
-                                Text(
-                                    text = "Select any image file from storage",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
-
-                    // Camera option
-                    OutlinedButton(
-                        onClick = {
-                            try {
-                                val cameraIntent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
-                                context.startActivity(cameraIntent)
-                                Toast.makeText(context, "Take a photo and select it from your gallery", Toast.LENGTH_LONG).show()
-                                onDismiss()
-                            } catch (e: ActivityNotFoundException) {
-                                Toast.makeText(context, "Camera not available", Toast.LENGTH_SHORT).show()
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(ExtraCornerRadius)
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Text(
-                                text = "📷",
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Column(
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                Text(
-                                    text = "Take Photo",
-                                    style = MaterialTheme.typography.titleSmall.copy(
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                )
-                                Text(
-                                    text = "Capture a new image with your camera",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
 
                 // Action buttons
                 Row(
@@ -269,21 +109,19 @@ fun WallpaperSelectionDialog(
 
                     Button(
                         onClick = {
-                            // Try to open default gallery app
                             try {
-                                val galleryIntent = Intent(Intent.ACTION_VIEW).apply {
-                                    type = "image/*"
-                                    action = Intent.ACTION_GET_CONTENT
-                                }
-                                context.startActivity(Intent.createChooser(galleryIntent, "Select Wallpaper"))
-                                onDismiss()
+                                photoPickerLauncher.launch(
+                                    PickVisualMediaRequest(
+                                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
+                                )
                             } catch (e: ActivityNotFoundException) {
-                                Toast.makeText(context, "No gallery app found", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Photo picker not available", Toast.LENGTH_SHORT).show()
                             }
                         },
-                        modifier = Modifier.weight(2f)
+                        modifier = Modifier.weight(1f)
                     ) {
-                        Text("Open Gallery")
+                        Text("Choose from photos")
                     }
                 }
             }
